@@ -96,10 +96,12 @@ ${JSON.stringify(history, null, 2)}`;
     model: MODEL,
     system: SYSTEM_PROMPT,
     prompt,
-    // Concepts are terse (no full copy yet) — 4096 is plenty even for a
-    // full quarter's ~39 slots, and keeps well under free-tier TPM caps
-    // like Groq's 12k/minute on larger models.
-    maxTokens: 4096,
+    // A full quarter is ~39 concise concept objects — 4096 truncated that
+    // mid-output on testing. 6000 leaves room to finish while still fitting
+    // under Groq's free-tier 12k TPM cap alongside this prompt's input size.
+    // Real Anthropic usage has no such tension; this is a free-tier-only
+    // balancing act.
+    maxTokens: 6000,
   });
 
   const plan = parseJSON(text);
