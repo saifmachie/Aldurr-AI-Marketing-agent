@@ -25,6 +25,14 @@ cp .env.example .env   # fill in ANTHROPIC_API_KEY, optionally CANVA_ACCESS_TOKE
                         # and the Meta Graph API credentials
 ```
 
+**No Anthropic credits yet?** Set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY`
+(free at ai.google.dev) in `.env` to run every agent through Google's free
+tier instead — this lets you test the pipeline's mechanics (JSON parsing,
+the state machine, the approve/diff flow) end to end without spending
+anything. The Iraqi-dialect quality won't match Claude, so treat it as a
+plumbing test, not a preview of real copy. Switch back to
+`LLM_PROVIDER=anthropic` once credits are sorted.
+
 ## The quarterly batch — two human gates
 
 **1. Plan the quarter.** Computes the actual Sunday/Tuesday/Thursday dates
