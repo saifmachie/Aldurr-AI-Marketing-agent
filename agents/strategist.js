@@ -96,7 +96,10 @@ ${JSON.stringify(history, null, 2)}`;
     model: MODEL,
     system: SYSTEM_PROMPT,
     prompt,
-    maxTokens: 8192,
+    // Concepts are terse (no full copy yet) — 4096 is plenty even for a
+    // full quarter's ~39 slots, and keeps well under free-tier TPM caps
+    // like Groq's 12k/minute on larger models.
+    maxTokens: 4096,
   });
 
   const plan = parseJSON(text);
