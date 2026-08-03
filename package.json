@@ -2,12 +2,15 @@
   "name": "aldurr-social-agent",
   "version": "0.1.0",
   "private": true,
-  "description": "Al Durr Supplies social content pipeline — Phase 1: Copywriter + Compliance",
+  "description": "Al Durr Supplies social content pipeline — Phase 2: Strategist + Copywriter + Compliance + Designer",
   "main": "index.js",
   "scripts": {
+    "strategist": "node agents/strategist.js",
     "copywriter": "node agents/copywriter.js",
     "compliance": "node agents/compliance.js",
-    "draft": "node scripts/draft-week.js"
+    "designer": "node agents/designer.js",
+    "draft": "node scripts/draft-week.js",
+    "draft:full": "node scripts/draft-week-full.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",

@@ -1,0 +1,35 @@
+{
+  "_comment": "Canva brand template IDs and autofill field maps. Placeholders until the 4 templates in agent-spec.md are built in Canva. Fill in canva_brand_template_id after creating each template, and adjust each field's 'canva_field' if your template's autofill field names differ from these defaults.",
+  "1": {
+    "name": "Stat / Quote card",
+    "canva_brand_template_id": "REPLACE_WITH_CANVA_TEMPLATE_ID",
+    "fields": {
+      "headline": { "canva_field": "headline", "type": "text" }
+    }
+  },
+  "2": {
+    "name": "Feature explainer",
+    "canva_brand_template_id": "REPLACE_WITH_CANVA_TEMPLATE_ID",
+    "fields": {
+      "headline": { "canva_field": "headline", "type": "text" },
+      "supporting_line": { "canva_field": "supporting_line", "type": "text" }
+    }
+  },
+  "3": {
+    "name": "App screenshot frame",
+    "canva_brand_template_id": "REPLACE_WITH_CANVA_TEMPLATE_ID",
+    "fields": {
+      "headline": { "canva_field": "headline", "type": "text" },
+      "supporting_line": { "canva_field": "supporting_line", "type": "text" },
+      "screenshot": { "canva_field": "screenshot", "type": "image" }
+    }
+  },
+  "4": {
+    "name": "3-step process",
+    "canva_brand_template_id": "REPLACE_WITH_CANVA_TEMPLATE_ID",
+    "fields": {
+      "headline": { "canva_field": "headline", "type": "text" },
+      "supporting_line": { "canva_field": "supporting_line", "type": "text" }
+    }
+  }
+}
