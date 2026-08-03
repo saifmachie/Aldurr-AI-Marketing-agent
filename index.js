@@ -1,18 +1,23 @@
 #!/usr/bin/env node
-// Phase 3 entry point. Invoke this from an external scheduler (cron /
-// Windows Task Scheduler) — see README for the Monday 08:00 Baghdad setup.
-//
-// Usage:
-//   node index.js run [--week 2026-33] [--analyst path.json]
-//   node index.js approve <week>
+// v2 entry point — quarterly batch workflow + event handler.
+// See README for the full command reference.
 const orchestrator = require('./agents/orchestrator');
-const strategist = require('./agents/strategist');
+const eventHandler = require('./agents/event-handler');
+const publisher = require('./agents/publisher');
+const calendar = require('./lib/calendar');
+
+const USAGE = `Usage:
+  node index.js plan-quarter [--quarter 2026-Q3]
+  node index.js approve-concepts <quarter>
+  node index.js approve-batch <quarter>
+  node index.js event <event-type> <data.json>
+  node index.js approve-event <event-id>
+  node index.js publish-due`;
 
 function parseArgs(argv) {
-  const args = { week: null, analyst: null };
+  const args = { quarter: null };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === '--week') args.week = argv[++i];
-    else if (argv[i] === '--analyst') args.analyst = argv[++i];
+    if (argv[i] === '--quarter') args.quarter = argv[++i];
   }
   return args;
 }
@@ -20,24 +25,51 @@ function parseArgs(argv) {
 async function main() {
   const [command, ...rest] = process.argv.slice(2);
 
-  if (command === 'run') {
+  if (command === 'plan-quarter') {
     const args = parseArgs(rest);
-    const week = args.week || strategist.isoWeekIdentifier(new Date());
-    await orchestrator.runWeek(week, { analystPath: args.analyst });
+    const quarter = args.quarter || calendar.quarterIdentifier(new Date());
+    await orchestrator.planQuarter(quarter);
     return;
   }
 
-  if (command === 'approve') {
-    const week = rest[0];
-    if (!week) {
-      console.error('Usage: node index.js approve <week>');
-      process.exit(1);
-    }
-    await orchestrator.approve(week);
+  if (command === 'approve-concepts') {
+    const quarter = rest[0];
+    if (!quarter) return void console.error(USAGE) || process.exit(1);
+    await orchestrator.approveConcepts(quarter);
     return;
   }
 
-  console.error('Usage:\n  node index.js run [--week 2026-33] [--analyst path.json]\n  node index.js approve <week>');
+  if (command === 'approve-batch') {
+    const quarter = rest[0];
+    if (!quarter) return void console.error(USAGE) || process.exit(1);
+    await orchestrator.approveBatch(quarter);
+    return;
+  }
+
+  if (command === 'event') {
+    const [eventType, dataPath] = rest;
+    if (!eventType || !dataPath) return void console.error(USAGE) || process.exit(1);
+    const fs = require('fs');
+    const eventData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    const eventId = `${eventType}-${Date.now()}`;
+    await eventHandler.runEvent(eventType, eventData, eventId);
+    console.log(`Event ID: ${eventId}`);
+    return;
+  }
+
+  if (command === 'approve-event') {
+    const eventId = rest[0];
+    if (!eventId) return void console.error(USAGE) || process.exit(1);
+    await eventHandler.approveEvent(eventId);
+    return;
+  }
+
+  if (command === 'publish-due') {
+    await publisher.publishDueInstagramPosts();
+    return;
+  }
+
+  console.error(USAGE);
   process.exit(1);
 }
 

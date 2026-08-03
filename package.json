@@ -1,18 +1,16 @@
 {
   "name": "aldurr-social-agent",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Al Durr Supplies social content pipeline — Phase 3: Orchestrator + state machine",
+  "description": "Al Durr Supplies social content pipeline — v2: credibility-first, quarterly batch + events",
   "main": "index.js",
   "scripts": {
-    "strategist": "node agents/strategist.js",
-    "copywriter": "node agents/copywriter.js",
-    "compliance": "node agents/compliance.js",
-    "designer": "node agents/designer.js",
-    "draft": "node scripts/draft-week.js",
-    "draft:full": "node scripts/draft-week-full.js",
-    "run": "node index.js run",
-    "approve": "node index.js approve"
+    "plan-quarter": "node index.js plan-quarter",
+    "approve-concepts": "node index.js approve-concepts",
+    "approve-batch": "node index.js approve-batch",
+    "event": "node index.js event",
+    "approve-event": "node index.js approve-event",
+    "publish-due": "node index.js publish-due"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",

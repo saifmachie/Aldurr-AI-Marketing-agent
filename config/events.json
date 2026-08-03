@@ -1,0 +1,29 @@
+{
+  "vacancy.opened": {
+    "channels": ["linkedin", "facebook"],
+    "extra_step": "Create the application form first — this is a real-world action outside this system, do it before approving the post.",
+    "required_data": ["title", "summary", "apply_url"]
+  },
+  "product.category_added": {
+    "channels": ["facebook", "instagram"],
+    "required_data": ["category_name", "summary"]
+  },
+  "promotion.launched": {
+    "channels": ["facebook", "instagram"],
+    "extra_step": "No pricing in creative — this rule is enforced by Compliance too, not just here.",
+    "required_data": ["summary"]
+  },
+  "coverage.expanded": {
+    "channels": ["facebook", "instagram"],
+    "required_data": ["summary"]
+  },
+  "milestone.reached": {
+    "channels": ["linkedin", "facebook"],
+    "extra_step": "Numbers must be approved first — confirm the figure is accurate and cleared before this event is triggered.",
+    "required_data": ["summary"]
+  },
+  "feature.shipped": {
+    "channels": ["facebook", "instagram"],
+    "required_data": ["summary"]
+  }
+}

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Assembles output/week-<week>.md — the file a human reviews and edits,
-// per the approval loop in AlDurrAgentArchitecture.md §6.
-// Usage: node scripts/build-review.js <week>
+// Assembles output/quarter-<id>.md — the full-batch review file for v2 §6
+// step 6 ("YOU review the full batch, amend"). This is the second human
+// gate, after concepts were already approved and copy/design/compliance ran
+// on the approved batch.
+// Usage: node scripts/build-review.js <quarter>
 const fs = require('fs');
 const path = require('path');
 
@@ -9,45 +11,32 @@ function loadIfExists(p) {
   return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : null;
 }
 
-function analystSection(analyst) {
-  if (!analyst) {
-    return '## Analyst summary\n- No analyst has run yet — cold start, no performance history.\n';
-  }
-  const bullets = (analyst.recommendations && analyst.recommendations.length
-    ? analyst.recommendations
-    : analyst.caveats || []
-  )
-    .map((line) => `- ${line}`)
-    .join('\n');
-  return `## Analyst summary\n${bullets}\n- Confidence: ${analyst.confidence}\n`;
-}
-
-function designLine(designs, day) {
+function designLine(designs, date) {
   if (!designs) return '[not rendered — designer did not run]';
-  const entry = designs.designs.find((d) => d.day === day);
+  const entry = designs.designs.find((d) => d.date === date);
   if (!entry) return '[no design entry]';
   return entry.status === 'rendered' ? entry.path : `[skipped — ${entry.reason}]`;
 }
 
 function postSection(post, copyPost, designs) {
+  const title = post.type === 'occasion' ? `occasion (${post.occasion_name || copyPost?.pillar || ''})` : post.pillar;
   const lines = [];
-  lines.push(`## ${post.day} — ${post.pillar}`);
+  lines.push(`## ${post.date} — ${post.day} — ${title}`);
   lines.push(`**Hook:** ${copyPost?.hook || '(copywriter did not produce this post)'}`);
   lines.push('**Copy:**');
   lines.push(copyPost?.body || '');
   lines.push(`**CTA:** ${copyPost?.cta || post.cta_type}`);
-  lines.push(`**Design:** ${designLine(designs, post.day)} Template ${post.template}`);
+  lines.push(`**Design:** ${designLine(designs, post.date)} Template ${post.template}`);
   lines.push(`**Why this post:** ${post.rationale}`);
   return lines.join('\n');
 }
 
-function build(week, plan, copy, audit, designs) {
+function build(quarter, plan, copy, audit, designs) {
   const parts = [];
-  parts.push(`# Week ${week} — Draft for review\n`);
-  parts.push(analystSection(null));
+  parts.push(`# Quarter ${quarter} — Full batch draft for review (${plan.posts.length} posts)\n`);
 
   for (const post of plan.posts) {
-    const copyPost = copy?.posts.find((p) => p.day === post.day);
+    const copyPost = copy?.posts.find((p) => p.date === post.date);
     parts.push(postSection(post, copyPost, designs));
     parts.push('---');
   }
@@ -63,28 +52,28 @@ function build(week, plan, copy, audit, designs) {
   return parts.join('\n');
 }
 
-function run(week) {
-  const plan = loadIfExists(path.join('output', `week-${week}-plan.json`));
-  if (!plan) throw new Error(`No plan found at output/week-${week}-plan.json — run the strategist first.`);
-  const copy = loadIfExists(path.join('output', `week-${week}-copy.json`));
-  const audit = loadIfExists(path.join('output', `week-${week}-audit.json`));
-  const designs = loadIfExists(path.join('output', `week-${week}-designs.json`));
+function run(quarter) {
+  const plan = loadIfExists(path.join('output', `quarter-${quarter}-plan.json`));
+  if (!plan) throw new Error(`No approved plan found at output/quarter-${quarter}-plan.json — run scripts/approve-concepts.js first.`);
+  const copy = loadIfExists(path.join('output', `quarter-${quarter}-copy.json`));
+  const audit = loadIfExists(path.join('output', `quarter-${quarter}-audit.json`));
+  const designs = loadIfExists(path.join('output', `quarter-${quarter}-designs.json`));
 
-  const markdown = build(week, plan, copy, audit, designs);
-  const outPath = path.join('output', `week-${week}.md`);
+  const markdown = build(quarter, plan, copy, audit, designs);
+  const outPath = path.join('output', `quarter-${quarter}.md`);
   fs.writeFileSync(outPath, markdown, 'utf8');
   console.log(`Wrote review file to ${outPath}`);
   return outPath;
 }
 
 if (require.main === module) {
-  const week = process.argv[2];
-  if (!week) {
-    console.error('Usage: node scripts/build-review.js <week>');
+  const quarter = process.argv[2];
+  if (!quarter) {
+    console.error('Usage: node scripts/build-review.js <quarter>');
     process.exit(1);
   }
   try {
-    run(week);
+    run(quarter);
   } catch (err) {
     console.error(err.message);
     process.exit(1);

@@ -1,0 +1,37 @@
+{
+  "_comment": "Tone for ALL occasion posts: brief, dignified, no sales pitch — two or three sentences, one clean design card. Selling on an occasion post undoes the point of posting. See docs/AlDurrSocialSystemv2.md §4.",
+  "fixed": [
+    { "month": 1, "day": 1, "name": "New Year", "priority": "medium", "angle": "Thanks to partners, forward-looking" },
+    { "month": 2, "day": 4, "name": "World Cancer Day", "priority": "low", "angle": "Awareness only, no product tie" },
+    { "month": 3, "day": 21, "name": "Mother's Day (Arab world)", "priority": "medium", "angle": "Warm, brief" },
+    { "month": 4, "day": 7, "name": "World Health Day", "priority": "high", "angle": "Core audience alignment" },
+    { "month": 5, "day": 1, "name": "Labour Day", "priority": "medium", "angle": "Recognition of workers" },
+    { "month": 5, "day": 5, "name": "Hand Hygiene Day", "priority": "medium", "angle": "Natural fit for supplies" },
+    { "month": 5, "day": 12, "name": "International Nurses Day", "priority": "high", "angle": "Direct customer audience" },
+    { "month": 6, "day": 14, "name": "World Blood Donor Day", "priority": "low", "angle": "Awareness" },
+    { "month": 7, "day": 14, "name": "Republic Day (Iraq)", "priority": "medium", "angle": "National, keep neutral" },
+    { "month": 9, "day": 17, "name": "World Patient Safety Day", "priority": "medium", "angle": "Ties to verified suppliers" },
+    { "month": 9, "day": 25, "name": "World Pharmacists Day", "priority": "highest", "angle": "Your single most important date" },
+    { "month": 9, "day": 29, "name": "World Heart Day", "priority": "low", "angle": "Awareness" },
+    { "month": 10, "day": 3, "name": "Independence Day (Iraq)", "priority": "medium", "angle": "National, keep neutral" },
+    { "month": 10, "day": 10, "name": "World Mental Health Day", "priority": "low", "angle": "Awareness" },
+    { "month": 11, "day": 14, "name": "World Diabetes Day", "priority": "medium", "angle": "Common pharmacy category" },
+    { "month": 12, "day": 1, "name": "World AIDS Day", "priority": "low", "angle": "Awareness" }
+  ],
+  "lunar": {
+    "_comment": "Lunar dates shift ~11 days earlier annually. Fill in each year's actual Gregorian date against a current Iraqi calendar BEFORE batching — never carry last year's dates forward. Empty 'dates' means unconfirmed; the strategist will flag these as needing confirmation rather than guess.",
+    "occasions": [
+      { "name": "Start of Ramadan", "priority": "high", "note": "Greeting + note on adjusted support hours if any", "dates": {} },
+      { "name": "Eid al-Fitr", "priority": "highest", "note": "Multi-day; schedule greeting for eve", "dates": {} },
+      { "name": "Eid al-Adha", "priority": "high", "note": "Same treatment as Eid al-Fitr", "dates": {} },
+      { "name": "Islamic New Year", "priority": "low", "note": "Brief greeting", "dates": {} },
+      { "name": "Prophet's Birthday", "priority": "medium", "note": "Brief greeting", "dates": {} },
+      { "name": "Ashura", "priority": "solemn", "note": "Not a greeting occasion. Post nothing, or a restrained acknowledgement. Never commercial.", "no_commercial": true, "restrained_only": true, "dates": {} },
+      { "name": "Iraqi Doctors' Day", "priority": "medium", "note": "Confirm the date locally before including.", "dates": {} }
+    ]
+  },
+  "excluded": [
+    { "name": "Valentine's Day", "reason": "Commercially off-brand for a B2B medical supplier and an uncertain fit with a conservative professional audience." },
+    { "name": "Ashura as commercial content", "reason": "Acknowledge or stay silent. Never a branded card." }
+  ]
+}

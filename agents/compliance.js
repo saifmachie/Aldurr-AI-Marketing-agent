@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Phase 1 agent — run by hand: node agents/compliance.js <copy.json> [output.json]
+// Run by hand: node agents/compliance.js <copy.json> [output.json]
 // This agent can only reject. It never rewrites.
 require('dotenv').config();
 const fs = require('fs');
@@ -13,7 +13,8 @@ const SYSTEM_PROMPT = `You audit social content for Al Durr Supplies before huma
 rewrite. You return pass or fail with reasons.
 
 Check every post against all rules. Fail the whole batch if any single item
-fails.
+fails. Identify each post by its "date" field in the "post" output field —
+day names repeat across a quarter, dates don't.
 
 1.  Any emoji anywhere?
 2.  Any price, commission rate, discount, or fee?
