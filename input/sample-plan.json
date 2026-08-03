@@ -1,0 +1,55 @@
+{
+  "week": 32,
+  "posts": [
+    {
+      "day": "Sunday",
+      "pillar": "Problem → Solution",
+      "concept": "Ordering by phone calls and paper lists costs procurement staff hours every week that digital ordering does not.",
+      "approved_fact": "Account setup in about 2 minutes",
+      "angle": "Frame the switching cost as small compared to what manual ordering already costs the buyer in time.",
+      "cta_type": "install",
+      "template": 4,
+      "rationale": "Opens the week with a soft install push tied to a pain point, not a hard sell."
+    },
+    {
+      "day": "Monday",
+      "pillar": "Product Education",
+      "concept": "Real-time delivery tracking lets procurement staff see order status without calling the supplier.",
+      "approved_fact": "Serves all Iraqi provinces",
+      "angle": "Single-feature explainer on tracking, framed around not needing to chase a phone call for status.",
+      "cta_type": "install",
+      "template": 2,
+      "rationale": "First hard install push of the week, on a concrete feature."
+    },
+    {
+      "day": "Tuesday",
+      "pillar": "Trust & Security",
+      "concept": "Every session expires automatically after 30 days, so a lost or shared device does not leave an account exposed indefinitely.",
+      "approved_fact": "Security: HTTPS encryption, one-time OTP login, 30-day session expiry, continuous error monitoring",
+      "angle": "Session-expiry angle — distinct from the OTP/data-not-sold angle already used in a prior week.",
+      "cta_type": "none",
+      "template": 1,
+      "rationale": "Credibility post; no CTA per cadence rule for this pillar."
+    },
+    {
+      "day": "Wednesday",
+      "pillar": "Product Education",
+      "concept": "A 3-step walkthrough of placing a first order: search, add to cart, confirm.",
+      "approved_fact": "Account setup in about 2 minutes",
+      "angle": "How-to walkthrough rather than a single-feature explainer, to vary the pillar's shape from Monday.",
+      "cta_type": "install",
+      "template": 3,
+      "rationale": "Second install push, using the app-screenshot template for a concrete step-by-step."
+    },
+    {
+      "day": "Thursday",
+      "pillar": "Support & Responsiveness",
+      "concept": "Buyers can reach support on WhatsApp and expect a reply within minutes, not a ticket queue.",
+      "approved_fact": "WhatsApp replies within minutes",
+      "angle": "Service promise framed as a question prompt to invite the reader to message in.",
+      "cta_type": "whatsapp",
+      "template": 2,
+      "rationale": "Closes the week with the click-to-WhatsApp CTA per cadence."
+    }
+  ]
+}
