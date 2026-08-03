@@ -12,7 +12,7 @@ const calendar = require('./lib/calendar');
 fs.mkdirSync('output', { recursive: true });
 
 const USAGE = `Usage:
-  node index.js plan-quarter [--quarter 2026-Q3]
+  node index.js plan-quarter [--quarter 2026-Q3] [--limit N]
   node index.js approve-concepts <quarter>
   node index.js approve-batch <quarter>
   node index.js event <event-type> <data.json>
@@ -20,9 +20,10 @@ const USAGE = `Usage:
   node index.js publish-due`;
 
 function parseArgs(argv) {
-  const args = { quarter: null };
+  const args = { quarter: null, limit: null };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--quarter') args.quarter = argv[++i];
+    else if (argv[i] === '--limit') args.limit = Number(argv[++i]);
   }
   return args;
 }
@@ -33,7 +34,7 @@ async function main() {
   if (command === 'plan-quarter') {
     const args = parseArgs(rest);
     const quarter = args.quarter || calendar.quarterIdentifier(new Date());
-    await orchestrator.planQuarter(quarter);
+    await orchestrator.planQuarter(quarter, { limit: args.limit });
     return;
   }
 

@@ -72,8 +72,12 @@ function loadHistory() {
   return files.map((f) => JSON.parse(fs.readFileSync(path.join(HISTORY_DIR, f), 'utf8')));
 }
 
-async function planConcepts(quarterId, outPath) {
-  const { slots, unconfirmedLunarOccasions, unmatchedOccasions } = calendar.buildQuarterSlots(quarterId);
+async function planConcepts(quarterId, outPath, { limit } = {}) {
+  const { slots: allSlots, unconfirmedLunarOccasions, unmatchedOccasions } = calendar.buildQuarterSlots(quarterId);
+  const slots = limit ? allSlots.slice(0, limit) : allSlots;
+  if (limit) {
+    console.warn(`--limit ${limit}: testing with ${slots.length}/${allSlots.length} slots, not the full quarter.`);
+  }
   const history = loadHistory();
 
   if (unconfirmedLunarOccasions.length) {
@@ -116,10 +120,11 @@ ${JSON.stringify(history, null, 2)}`;
 }
 
 function parseArgs(argv) {
-  const args = { quarter: null, out: null };
+  const args = { quarter: null, out: null, limit: null };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--quarter') args.quarter = argv[++i];
     else if (argv[i] === '--out') args.out = argv[++i];
+    else if (argv[i] === '--limit') args.limit = Number(argv[++i]);
   }
   return args;
 }
@@ -128,7 +133,7 @@ if (require.main === module) {
   const args = parseArgs(process.argv.slice(2));
   const quarter = args.quarter || calendar.quarterIdentifier(new Date());
   const outPath = args.out || path.join('output', `quarter-${quarter}-concepts.json`);
-  planConcepts(quarter, outPath).catch((err) => {
+  planConcepts(quarter, outPath, { limit: args.limit }).catch((err) => {
     console.error(err.message);
     process.exit(1);
   });

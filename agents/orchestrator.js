@@ -35,9 +35,9 @@ function outputPaths(quarter) {
   };
 }
 
-async function planQuarter(quarter) {
+async function planQuarter(quarter, { limit } = {}) {
   state.writeState({ quarter, state: 'PLANNING' });
-  const reviewPath = await planQuarterScript.run(quarter);
+  const reviewPath = await planQuarterScript.run(quarter, { limit });
   state.writeState({ quarter, state: 'AWAITING_CONCEPT_APPROVAL' });
   notify(`Quarter ${quarter}'s concepts are ready: ${reviewPath}. Review (~15 min), then run "node index.js approve-concepts ${quarter}".`);
   return reviewPath;
