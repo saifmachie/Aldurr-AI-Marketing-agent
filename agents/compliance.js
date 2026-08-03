@@ -49,7 +49,11 @@ ${JSON.stringify(copy, null, 2)}`;
     model: MODEL,
     system: SYSTEM_PROMPT,
     prompt,
-    maxTokens: 4096,
+    // Output is just a verdict + short failure list — 2048 covers even a
+    // batch with several failures. Kept low since compliance's input scales
+    // with batch size (all 39 posts' full copy), pushing free-tier TPM caps
+    // like Groq's. Real Anthropic usage has no such tension.
+    maxTokens: 2048,
   });
 
   const audit = parseJSON(text);
