@@ -53,12 +53,17 @@ If a post would require a fact not on the approved list, set "needs_approved_fac
 to a short description of what is missing and leave hook/body empty rather than
 inventing one.`;
 
-async function run(planPath, outPath) {
+async function run(planPath, outPath, priorFailures) {
   const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
+
+  const failuresBlock = priorFailures && priorFailures.length
+    ? `\n\nThe previous draft failed compliance. Fix these specific violations —
+do not repeat them:\n${JSON.stringify(priorFailures, null, 2)}`
+    : '';
 
   const prompt = `Write copy for this week's plan. Each entry is one post from the strategist:
 
-${JSON.stringify(plan, null, 2)}`;
+${JSON.stringify(plan, null, 2)}${failuresBlock}`;
 
   const text = await complete({
     model: MODEL,
