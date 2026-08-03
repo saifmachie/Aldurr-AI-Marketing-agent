@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 // v2 entry point — quarterly batch workflow + event handler.
 // See README for the full command reference.
+const fs = require('fs');
 const orchestrator = require('./agents/orchestrator');
 const eventHandler = require('./agents/event-handler');
 const publisher = require('./agents/publisher');
 const calendar = require('./lib/calendar');
+
+// Every command below writes into output/ — ensure it exists even on a
+// fresh clone, since git doesn't track empty directories.
+fs.mkdirSync('output', { recursive: true });
 
 const USAGE = `Usage:
   node index.js plan-quarter [--quarter 2026-Q3]
@@ -49,7 +54,6 @@ async function main() {
   if (command === 'event') {
     const [eventType, dataPath] = rest;
     if (!eventType || !dataPath) return void console.error(USAGE) || process.exit(1);
-    const fs = require('fs');
     const eventData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     const eventId = `${eventType}-${Date.now()}`;
     await eventHandler.runEvent(eventType, eventData, eventId);
